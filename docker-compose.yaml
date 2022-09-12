@@ -1,0 +1,9 @@
+version: '3.9'
+services:
+  server:
+    image: server-img
+    build:
+      context: ./server
+      dockerfile: Dockerfile.server
+    ports:
+     - "8000:8000"
