@@ -11,7 +11,7 @@ binary:
 run:
 	docker-compose up
 
-test:
+tests:
 	@cd server/getUrls && go test -v
 	@cd server/safeStack && go test -v
 	@cd server/utils && go test -v
