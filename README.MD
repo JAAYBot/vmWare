@@ -40,3 +40,7 @@ SERVER
 
 EXAMPLE
 * `curl http://localhost:8000/vmWare?sortKey=views&limit=6`
+
+DOCKER 2 KUBERNETES
+* This was ran and tested locally using a `docker-compose.yaml` template file. In order to meet the requirements, the tool `kompose` was used to create `server-deployment.yaml` and `server-service.yaml`
+* To apply to to kubernetes cluster run `kubectl apply -f server-deployment.yaml,server-service.yaml`
