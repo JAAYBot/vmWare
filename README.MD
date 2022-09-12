@@ -5,7 +5,7 @@ PREREQUISITE
 INFORMATION
 
 * A prebuilt binary file, `main`, is included
-* When run in debug mode, some messages are printed to screen and a deplay is introduced to demonstrate the locking/unlocking of the `SafeStack` struct
+* When run in `debug mode`, some helpful messages are printed to screen. A delay is introduced to demonstrate the locking and unlocking of the `SafeStack` struct. To disable, set `debug` to `false` in the `server/Dockerfile.server`
 * The Server will try to get a URL 3 times before returning an error
 
 USER COMMANDS
