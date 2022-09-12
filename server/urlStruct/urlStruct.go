@@ -7,6 +7,6 @@ type UrlInformation struct {
 }
 
 type UrlList struct {
-	Data []UrlInformation `json:"data,omitempty"`
-	Count int `json:"count,omitempty"`
+	Data  []UrlInformation `json:"data,omitempty"`
+	Count int              `json:"count,omitempty"`
 }

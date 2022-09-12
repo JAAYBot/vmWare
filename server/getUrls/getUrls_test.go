@@ -6,19 +6,15 @@ import (
 	val "vmWare/server/values"
 )
 
-func TestGetURLInfo(t *testing.T){
+func TestGetURLInfo(t *testing.T) {
 	t.Log("->")
 
 	stack := &safeStack.SafeStack{}
-
-	// Download data, and check number of entries
-	wg.Add(1)
-   	GetURLInfo(stack, val.GOOGLE)
-	wg.Wait()
+	err := GetURLInfo(stack, val.GOOGLE)
 	got := stack.ReturnSize()
 	want := 5
 
-	if got != want {
+	if got != want || err != nil {
 		t.Errorf("got %d, wanted %d", got, want)
 	} else {
 		t.Logf("%d == %d", got, want)
@@ -26,17 +22,17 @@ func TestGetURLInfo(t *testing.T){
 
 }
 
-func TestGetAllURLS(t *testing.T){
+func TestGetAllURLS(t *testing.T) {
 	t.Log("->")
 	stack := &safeStack.SafeStack{}
 
 	// Download data, and check number of entries
-	GetAllURLS(stack, val.DUCKDUCKGO, val.GOOGLE, val.WIKIPEDIA)
+	err := GetAllURLS(stack, val.DUCKDUCKGO, val.GOOGLE, val.WIKIPEDIA)
 
 	got := stack.ReturnSize()
 	want := 15
 
-	if got != want {
+	if got != want || err != nil {
 		t.Errorf("got %d, wanted %d", got, want)
 	} else {
 		t.Logf("%d == %d", got, want)

@@ -1,14 +1,14 @@
 package main
 
 import (
-	"strconv"
-	"net/http"
 	"github.com/gin-gonic/gin"
-	safeStack "vmWare/server/safeStack"
+	"net/http"
+	"strconv"
 	getUrls "vmWare/server/getUrls"
+	safeStack "vmWare/server/safeStack"
 	urlStruct "vmWare/server/urlStruct"
-	val "vmWare/server/values"
 	utils "vmWare/server/utils"
+	val "vmWare/server/values"
 )
 
 func vmWareRouting(root *gin.Engine) {
@@ -20,16 +20,16 @@ func vmWareRouting(root *gin.Engine) {
 
 func vmWare(c *gin.Context) {
 
-	sortkey := c.Query(val.SORTKEY)	
+	sortkey := c.Query(val.SORTKEY)
 	limitString := c.Query(val.LIMIT)
 
-	var limit int 
+	var limit int
 	var err error
 	limit, err = strconv.Atoi(limitString)
 
 	if err != nil {
 		limit = -1
-    }
+	}
 
 	stack := &safeStack.SafeStack{}
 
@@ -38,7 +38,7 @@ func vmWare(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{"code": "GET_URL_ERROR", "message": "There was an error getting All URLs, please try again or contact support"})
 		return
-    }
+	}
 
 	if sortkey == val.VIEWS {
 		stack.Sort(val.VIEWS)
@@ -52,7 +52,7 @@ func vmWare(c *gin.Context) {
 
 	finalStack := &urlStruct.UrlList{
 		Count: utils.Min(limit, stack.ReturnSize()),
-		Data: stack.ReturnSubStack(limit),
+		Data:  stack.ReturnSubStack(limit),
 	}
 
 	c.JSON(http.StatusOK, finalStack)
@@ -62,7 +62,7 @@ func vmWare(c *gin.Context) {
 }
 
 func routerEngine() *gin.Engine {
-	
+
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.New()
 

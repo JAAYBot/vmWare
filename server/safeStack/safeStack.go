@@ -2,21 +2,21 @@ package safeStack
 
 import (
 	"fmt"
-	"sync"
 	"sort"
+	"sync"
+	"time"
 	"vmWare/server/urlStruct"
 	utils "vmWare/server/utils"
 	val "vmWare/server/values"
-	"time"
 )
 
 // SafeStack is safe to use concurrently.
 type SafeStack struct {
-	mu sync.Mutex
+	mu    sync.Mutex
 	stack urlStruct.UrlList
 }
 
-//Need to Fix
+// Need to Fix
 func (c *SafeStack) Update(newData *urlStruct.UrlList) {
 	c.mu.Lock()
 	if val.GLOBAL_DEBUG {
@@ -32,11 +32,11 @@ func (c *SafeStack) Sort(sortKey string) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 	switch {
-    case sortKey == val.RSCORE:
-        c.SortStackRelevanceScore()
-    case sortKey == val.VIEWS:
-        c.SortStackViews()
-    }
+	case sortKey == val.RSCORE:
+		c.SortStackRelevanceScore()
+	case sortKey == val.VIEWS:
+		c.SortStackViews()
+	}
 }
 
 func (c *SafeStack) SortStackRelevanceScore() {
@@ -72,4 +72,3 @@ func (c *SafeStack) ReturnSubStack(size int) []urlStruct.UrlInformation {
 func (c *SafeStack) ReturnSize() int {
 	return len(c.stack.Data)
 }
-

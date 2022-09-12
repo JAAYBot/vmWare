@@ -9,18 +9,18 @@ func Setup() SafeStack {
 
 	testArray := []urlStruct.UrlInformation{
 		{
-			Url: "www.testOne.com",
-			Views: 3.0,
+			Url:            "www.testOne.com",
+			Views:          3.0,
 			RelevanceScore: 100,
 		},
 		{
-			Url: "www.testTwo.com",
-			Views: 6.0,
+			Url:            "www.testTwo.com",
+			Views:          6.0,
 			RelevanceScore: 200,
 		},
 		{
-			Url: "www.testThree.com",
-			Views: 1.0,
+			Url:            "www.testThree.com",
+			Views:          1.0,
 			RelevanceScore: 300,
 		},
 	}
@@ -41,13 +41,13 @@ func AdditionalData() urlStruct.UrlList {
 
 	testArray := []urlStruct.UrlInformation{
 		{
-			Url: "www.testFour.com",
-			Views: 1.0,
+			Url:            "www.testFour.com",
+			Views:          1.0,
 			RelevanceScore: 200,
 		},
 		{
-			Url: "www.testFive.com",
-			Views: 10.0,
+			Url:            "www.testFive.com",
+			Views:          10.0,
 			RelevanceScore: 400,
 		},
 	}
@@ -66,7 +66,7 @@ func TestUpdate(t *testing.T) {
 	testStack := Setup()
 	newData := AdditionalData()
 	testStack.Update(&newData)
-	
+
 	got := testStack.ReturnSize()
 	want := 5
 
@@ -82,7 +82,7 @@ func TestSortStackRelevanceScore(t *testing.T) {
 
 	testStack := Setup()
 	testStack.SortStackRelevanceScore()
-	
+
 	got := testStack.stack.Data[0].RelevanceScore
 	want := 300.0
 
@@ -98,7 +98,7 @@ func TestSortStackViews(t *testing.T) {
 
 	testStack := Setup()
 	testStack.SortStackViews()
-	
+
 	got := testStack.stack.Data[0].Views
 	want := 6.0
 
@@ -114,7 +114,7 @@ func TestReturnSubStack(t *testing.T) {
 
 	testStack := Setup()
 	subStack := testStack.ReturnSubStack(2)
-	
+
 	got := len(subStack)
 	want := 2
 
@@ -129,7 +129,7 @@ func TestReturnSize(t *testing.T) {
 	t.Log("->")
 
 	testStack := Setup()
-	
+
 	got := testStack.ReturnSize()
 	want := 3
 
@@ -139,4 +139,3 @@ func TestReturnSize(t *testing.T) {
 		t.Logf("%d == %d", got, want)
 	}
 }
-

@@ -1,11 +1,11 @@
 package getUrls
 
 import (
-	"fmt"
 	"encoding/json"
+	"fmt"
+	"golang.org/x/sync/errgroup"
 	"log"
 	"net/http"
-	"golang.org/x/sync/errgroup"
 	safeStack "vmWare/server/safeStack"
 	urlStruct "vmWare/server/urlStruct"
 	val "vmWare/server/values"
@@ -18,11 +18,14 @@ func TryGetURL(url string) (*http.Response, error) {
 	var code int
 
 	for retry > 0 {
-		fmt.Println("RETRY, attempt: ", val.RETRY-retry+1)
-		retry-=1
+		if val.GLOBAL_DEBUG {
+			fmt.Println("RETRY, attempt: ", val.RETRY-retry+1)
+		}
+
+		retry -= 1
 
 		response, err = http.Get(url)
-		if err == nil && response.StatusCode == 200{
+		if err == nil && response.StatusCode == 200 {
 			return response, err
 		}
 		code = response.StatusCode
@@ -57,12 +60,12 @@ func GetURLInfo(stack *safeStack.SafeStack, url string) error {
 func GetAllURLS(stack *safeStack.SafeStack, url ...string) error {
 	var err error
 	g := &errgroup.Group{}
-	
+
 	for _, s := range url {
 		tempUrl := s
 		g.Go(func() error {
-            return GetURLInfo(stack, tempUrl)
-        })
+			return GetURLInfo(stack, tempUrl)
+		})
 	}
 
 	if err = g.Wait(); err != nil {

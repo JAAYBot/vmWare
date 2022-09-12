@@ -4,26 +4,26 @@ import (
 	"testing"
 )
 
-func TestMinOne(t *testing.T){
+func TestMinOne(t *testing.T) {
 	t.Log("->")
-    got := Min(1, 5)
-    want := 1
+	got := Min(1, 5)
+	want := 1
 
-    if got != want {
-		  t.Errorf("got %d, wanted %d", got, want)
-    } else {
-      t.Logf("%d == %d", got, want)
-    }
+	if got != want {
+		t.Errorf("got %d, wanted %d", got, want)
+	} else {
+		t.Logf("%d == %d", got, want)
+	}
 }
 
-func TestMinTwo(t *testing.T){
+func TestMinTwo(t *testing.T) {
 	t.Log("->")
-    got := Min(-10, 5)
-    want := -10
+	got := Min(-10, 5)
+	want := -10
 
-    if got != want {
-		  t.Errorf("got %d, wanted %d", got, want)
-    } else {
-      t.Logf("%d == %d", got, want)
-    }
+	if got != want {
+		t.Errorf("got %d, wanted %d", got, want)
+	} else {
+		t.Logf("%d == %d", got, want)
+	}
 }
