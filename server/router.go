@@ -33,8 +33,12 @@ func vmWare(c *gin.Context) {
 
 	stack := &safeStack.SafeStack{}
 
-	//return error here
-	getUrls.GetAllURLS(stack, val.DUCKDUCKGO, val.GOOGLE, val.WIKIPEDIA)
+	err = getUrls.GetAllURLS(stack, val.DUCKDUCKGO, val.GOOGLE, val.WIKIPEDIA)
+
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{"code": "GET_URL_ERROR", "message": "There was an error getting All URLs, please try again or contact support"})
+		return
+    }
 
 	if sortkey == val.VIEWS {
 		stack.Sort(val.VIEWS)
@@ -45,8 +49,6 @@ func vmWare(c *gin.Context) {
 	if limit <= 1 || limit >= 200 {
 		limit = stack.ReturnSize()
 	}
-
-	//stack.PrintStack()
 
 	finalStack := &urlStruct.UrlList{
 		Count: utils.Min(limit, stack.ReturnSize()),

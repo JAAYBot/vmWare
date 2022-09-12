@@ -7,6 +7,7 @@ import (
 	"vmWare/server/urlStruct"
 	utils "vmWare/server/utils"
 	val "vmWare/server/values"
+	"time"
 )
 
 // SafeStack is safe to use concurrently.
@@ -17,9 +18,10 @@ type SafeStack struct {
 
 //Need to Fix
 func (c *SafeStack) Update(newData *urlStruct.UrlList) {
-	//fmt.Println("Locking...")
 	c.mu.Lock()
-	//defer fmt.Println("Unlocking...")
+	fmt.Println("Locked")
+	time.Sleep(1 * time.Second)
+	defer fmt.Println("Unlocked")
 	defer c.mu.Unlock()
 	c.stack.Data = append(c.stack.Data, newData.Data...)
 }
