@@ -1,48 +1,74 @@
 package getUrls
 
 import (
+	"fmt"
 	"encoding/json"
 	"log"
 	"net/http"
-	"sync"
+	"golang.org/x/sync/errgroup"
 	safeStack "vmWare/server/safeStack"
 	urlStruct "vmWare/server/urlStruct"
+	val "vmWare/server/values"
 )
 
-var wg sync.WaitGroup
+func TryGetURL(url string) (*http.Response, error) {
+	retry := val.RETRY
+	var response *http.Response
+	var err error
+	var code int
 
-func GetURLInfo(stack *safeStack.SafeStack, url string) {
+	for retry > 0 {
+		fmt.Println("RETRY, attempt: ", val.RETRY-retry+1)
+		retry-=1
+
+		response, err = http.Get(url)
+		if err == nil && response.StatusCode == 200{
+			return response, err
+		}
+		code = response.StatusCode
+		defer response.Body.Close()
+	}
+
+	return nil, fmt.Errorf("HTTP STATUS CODE: %d", code)
+}
+
+func GetURLInfo(stack *safeStack.SafeStack, url string) error {
 	var urlData urlStruct.UrlList
 	var err error
 
-	defer wg.Done()
-
-	response, err := http.Get(url)
-
-	defer response.Body.Close()
+	response, err := TryGetURL(url)
 
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	decoder := json.NewDecoder(response.Body)
 	err = decoder.Decode(&urlData)
 
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
+
 	stack.Update(&urlData)
+
+	return nil
 }
 
-func GetAllURLS(stack *safeStack.SafeStack, url ...string) {
-
-	num := len(url)
+func GetAllURLS(stack *safeStack.SafeStack, url ...string) error {
+	var err error
+	g := &errgroup.Group{}
 	
-	wg.Add(num)
-
 	for _, s := range url {
-		go GetURLInfo(stack, s)
+		tempUrl := s
+		g.Go(func() error {
+            return GetURLInfo(stack, tempUrl)
+        })
 	}
-	
-	wg.Wait()
+
+	if err = g.Wait(); err != nil {
+		log.Printf("Err: %s\n", err.Error())
+		return err
+	}
+
+	return nil
 }

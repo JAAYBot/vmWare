@@ -11,3 +11,4 @@ const RSCORE = "relevanceScore"
 
 const RETRY = 3
 
+var GLOBAL_DEBUG = false

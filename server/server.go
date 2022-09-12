@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"flag"
+    val "vmWare/server/values"
 )
 
 const port = "8000"
@@ -18,9 +19,9 @@ func main() {
 
     debugPtr := flag.Bool("debug", false, "debug info")
     flag.Parse()
-    debug := *debugPtr
+    val.GLOBAL_DEBUG = *debugPtr
 
-    if debug {
+    if val.GLOBAL_DEBUG {
         fmt.Println("**********************************")
         fmt.Println("Starting Api Server")
         fmt.Println("Server is up")

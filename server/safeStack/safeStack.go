@@ -19,9 +19,11 @@ type SafeStack struct {
 //Need to Fix
 func (c *SafeStack) Update(newData *urlStruct.UrlList) {
 	c.mu.Lock()
-	fmt.Println("Locked")
-	time.Sleep(1 * time.Second)
-	defer fmt.Println("Unlocked")
+	if val.GLOBAL_DEBUG {
+		fmt.Println("Locked")
+		time.Sleep(5 * time.Second)
+		defer fmt.Println("Unlocked")
+	}
 	defer c.mu.Unlock()
 	c.stack.Data = append(c.stack.Data, newData.Data...)
 }
