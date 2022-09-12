@@ -24,6 +24,7 @@ func TestGetURLInfo(t *testing.T) {
 
 func TestGetAllURLS(t *testing.T) {
 	t.Log("->")
+
 	stack := &safeStack.SafeStack{}
 
 	// Download data, and check number of entries

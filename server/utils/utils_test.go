@@ -6,6 +6,7 @@ import (
 
 func TestMinOne(t *testing.T) {
 	t.Log("->")
+
 	got := Min(1, 5)
 	want := 1
 
@@ -18,6 +19,7 @@ func TestMinOne(t *testing.T) {
 
 func TestMinTwo(t *testing.T) {
 	t.Log("->")
+
 	got := Min(-10, 5)
 	want := -10
 
